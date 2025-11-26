@@ -13,7 +13,7 @@ return {
         GruvboxAquaSign = { fg = "#427b58", bg = "#f9f5d7" },
         GruvboxOrangeSign = { fg = "#af3a03", bg = "#f9f5d7" },
         NormalFloat = { fg = "#3c3836", bg = "#f9f5d7" },
-        AvanteSidebarWinSeparator = { fg = "#bdae93", bg = "#f9f5d7" },  -- light3
+        AvanteSidebarWinSeparator = { fg = "#bdae93", bg = "#f9f5d7" }, -- light3
         AvanteSidebarWinHorizontalSeparator = { fg = "#bdae93", bg = "#f9f5d7" },
       },
     },
@@ -23,5 +23,5 @@ return {
     opts = {
       colorscheme = "gruvbox",
     },
-  }
+  },
 }

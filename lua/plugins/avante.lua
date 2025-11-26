@@ -10,6 +10,6 @@ return {
         api_key_name = "OPENROUTER_API_KEY",
         model = "anthropic/claude-sonnet-4.5",
       },
-    }
+    },
   },
 }
