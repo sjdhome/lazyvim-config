@@ -20,6 +20,16 @@ return {
         sources = {
           explorer = {
             layout = "explorer_no_input",
+            hidden = true,
+          },
+          files = {
+            hidden = true,
+          },
+          grep = {
+            hidden = true,
+          },
+          git_files = {
+            hidden = true,
           },
         },
       },
