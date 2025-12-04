@@ -9,6 +9,17 @@ return {
             suggest = {
               completeFunctionCalls = false,
             },
+            preferences = {
+              jsxAttributeCompletionStyle = "none",
+            },
+          },
+          javascript = {
+            suggest = {
+              completeFunctionCalls = false,
+            },
+            preferences = {
+              jsxAttributeCompletionStyle = "none",
+            },
           },
         },
       },
