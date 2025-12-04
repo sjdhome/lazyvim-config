@@ -3,7 +3,9 @@ return {
   config = function(_, opts)
     local function pick(name, key, fallback)
       local ok, hl = pcall(vim.api.nvim_get_hl, 0, { name = name, link = false })
-      if not ok or not hl or not hl[key] then return fallback end
+      if not ok or not hl or not hl[key] then
+        return fallback
+      end
       return string.format("#%06x", hl[key])
     end
 
