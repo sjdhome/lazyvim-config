@@ -8,6 +8,22 @@
 -- markdownlint back out after the extra's options have been merged, using the
 -- function form of `opts` so the filtering runs last.
 return {
+  -- Tweak render-markdown.nvim. Plain tables are merged with
+  -- vim.tbl_deep_extend, so only the listed keys are overridden:
+  --   * enabled             -> start with rendering off; the extra's
+  --                            `<leader>um` Snacks toggle still turns it on.
+  --   * checkbox.enabled    -> the extra turns it off; turn it back on.
+  --   * heading.backgrounds -> empty list disables the per-level heading
+  --                            background highlight (icons/foreground stay).
+  {
+    "MeanderingProgrammer/render-markdown.nvim",
+    opts = {
+      enabled = false,
+      checkbox = { enabled = true },
+      heading = { backgrounds = {} },
+    },
+  },
+
   -- Drop markdownlint-cli2 from the conform.nvim formatter chain.
   {
     "stevearc/conform.nvim",
