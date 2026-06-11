@@ -7,7 +7,35 @@
 -- diagnostics/linter), and mason.nvim (auto-install). The specs below strip
 -- markdownlint back out after the extra's options have been merged, using the
 -- function form of `opts` so the filtering runs last.
+--
+-- Separately from markdownlint, the marksman LSP (also from the extra)
+-- publishes its own diagnostics ("Link to non-existent document",
+-- "Ambiguous link to document", ...). Those are unwanted too, but marksman's
+-- other features (completion, link navigation, rename) should stay, so the
+-- nvim-lspconfig spec below only silences its diagnostics instead of
+-- disabling the server. Marksman has no config knob for this, hence the
+-- client-side suppression. To get the diagnostics back, delete that spec.
 return {
+  -- Keep marksman running but drop its diagnostics.
+  {
+    "neovim/nvim-lspconfig",
+    opts = {
+      servers = {
+        marksman = {
+          -- Push diagnostics: discard them on arrival.
+          handlers = {
+            ["textDocument/publishDiagnostics"] = function() end,
+          },
+          -- Pull diagnostics (nvim 0.11+): hide the capability so the
+          -- client never requests them.
+          on_init = function(client)
+            client.server_capabilities.diagnosticProvider = nil
+          end,
+        },
+      },
+    },
+  },
+
   -- Tweak render-markdown.nvim. Plain tables are merged with
   -- vim.tbl_deep_extend, so only the listed keys are overridden:
   --   * enabled             -> start with rendering off; the extra's
