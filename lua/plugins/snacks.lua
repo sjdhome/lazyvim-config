@@ -29,6 +29,9 @@ return {
       -- decoration is disabled. Raise this value if a real source file is
       -- being downgraded unexpectedly.
       bigfile = { size = 256 * 1024 },
+      -- Disable indent guides: their vertical lines are drawn over the
+      -- indentation columns and hide the `space:·` listchars dots there.
+      indent = { enabled = false },
     },
   },
 }
