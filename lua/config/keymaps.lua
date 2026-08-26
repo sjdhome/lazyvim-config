@@ -2,6 +2,15 @@
 -- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
 -- Add any additional keymaps here
 
+-- Terminals can preserve Shift when translating Shift+wheel into horizontal
+-- wheel events. Neovim scrolls shifted horizontal events by a full page, so
+-- normalize them to regular events controlled by the `mousescroll` option.
+for _, direction in ipairs({ "Left", "Right" }) do
+  vim.keymap.set({ "n", "x", "i" }, "<S-ScrollWheel" .. direction .. ">", "<ScrollWheel" .. direction .. ">", {
+    desc = "Fine horizontal mouse scroll " .. direction:lower(),
+  })
+end
+
 -- Inline translation (lua/translator): kiss-translator-style virt_lines below
 -- each line. The callbacks require the module lazily, so it is only loaded on
 -- first use — same effect as a lazy.nvim `keys` spec.

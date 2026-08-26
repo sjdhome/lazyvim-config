@@ -12,6 +12,9 @@ vim.opt.listchars = { tab = "  ", space = "·", eol = " " }
 -- Absolute line numbers only (LazyVim enables relativenumber by default).
 vim.opt.relativenumber = false
 
+-- Use finer horizontal mouse-wheel steps than Neovim's 6-column default.
+vim.opt.mousescroll = "ver:3,hor:3"
+
 local osc52 = require("vim.ui.clipboard.osc52")
 vim.g.clipboard = {
   name = "OSC 52",

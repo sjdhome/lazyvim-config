@@ -38,15 +38,17 @@ return {
 
   -- Tweak render-markdown.nvim. Plain tables are merged with
   -- vim.tbl_deep_extend, so only the listed keys are overridden:
-  --   * enabled             -> start with rendering off; the extra's
-  --                            `<leader>um` Snacks toggle still turns it on.
+  --   * enabled             -> render Markdown by default; the extra's
+  --                            `<leader>um` Snacks toggle can turn it off.
+  --   * code.inline         -> disable the extra background on inline code.
   --   * checkbox.enabled    -> the extra turns it off; turn it back on.
   --   * heading.backgrounds -> empty list disables the per-level heading
   --                            background highlight (icons/foreground stay).
   {
     "MeanderingProgrammer/render-markdown.nvim",
     opts = {
-      enabled = false,
+      enabled = true,
+      code = { inline = false },
       checkbox = { enabled = true },
       heading = { backgrounds = {} },
     },
