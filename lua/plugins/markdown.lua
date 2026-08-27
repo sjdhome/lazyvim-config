@@ -40,6 +40,11 @@ return {
   -- vim.tbl_deep_extend, so only the listed keys are overridden:
   --   * enabled             -> render Markdown by default; the extra's
   --                            `<leader>um` Snacks toggle can turn it off.
+  --   * code.*              -> fenced code blocks get no background and no
+  --                            builtin border / language line / sign; the
+  --                            rounded box is drawn instead by the custom
+  --                            handler in lua/markdown_code_box.lua, which
+  --                            extends (not replaces) the builtin one.
   --   * code.inline         -> disable the extra background on inline code.
   --   * checkbox.enabled    -> the extra turns it off; turn it back on.
   --   * heading.backgrounds -> empty list disables the per-level heading
@@ -48,7 +53,21 @@ return {
     "MeanderingProgrammer/render-markdown.nvim",
     opts = {
       enabled = true,
-      code = { inline = false },
+      code = {
+        inline = false,
+        disable_background = true,
+        border = "none",
+        language = false,
+        sign = false,
+      },
+      custom_handlers = {
+        markdown = {
+          extends = true,
+          parse = function(ctx)
+            return require("markdown_code_box").parse(ctx)
+          end,
+        },
+      },
       checkbox = { enabled = true },
       heading = { backgrounds = {} },
     },
