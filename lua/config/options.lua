@@ -4,6 +4,9 @@
 
 vim.g.autoformat = false
 
+-- Keep the light palette instead of following the terminal's background.
+vim.opt.background = "light"
+
 -- Render spaces as faint middle dots, matching ~/.config/vim/conf.d/custom.vim
 -- (listchars=tab:\ \ ,space:·,eol:\ ). LazyVim already sets `list = true`;
 -- the dots stay subtle because gruvbox colors the Whitespace group with bg2.
