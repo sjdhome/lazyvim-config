@@ -1,6 +1,7 @@
 -- The LazyVim markdown language extra is enabled via lazyvim.json
--- (lazyvim.plugins.extras.lang.markdown). It provides the marksman LSP,
--- render-markdown, markdown-preview, and prettier + markdown-toc formatting.
+-- (lazyvim.plugins.extras.lang.markdown). It provides the marksman LSP
+-- (disabled below), render-markdown, markdown-preview, and prettier +
+-- markdown-toc formatting.
 --
 -- The extra also wires markdownlint (markdownlint-cli2) into four plugins:
 -- conform.nvim (as a formatter), none-ls.nvim and nvim-lint (as
@@ -8,29 +9,37 @@
 -- markdownlint back out after the extra's options have been merged, using the
 -- function form of `opts` so the filtering runs last.
 --
--- Separately from markdownlint, the marksman LSP (also from the extra)
--- publishes its own diagnostics ("Link to non-existent document",
--- "Ambiguous link to document", ...). Those are unwanted too, but marksman's
--- other features (completion, link navigation, rename) should stay, so the
--- nvim-lspconfig spec below only silences its diagnostics instead of
--- disabling the server. Marksman has no config knob for this, hence the
--- client-side suppression. To get the diagnostics back, delete that spec.
+-- The extra's marksman LSP is replaced by markdown-oxide (2026-10-05), which
+-- is Obsidian-compatible out of the box. Marksman was a poor fit for Obsidian
+-- vaults: it only accepts a workspace marked by `.marksman.toml` or a VCS
+-- directory (not `.obsidian`), so without per-vault config it fell back to
+-- single-file mode; and its default `[[` completion inserts slugified H1
+-- titles, which Obsidian cannot resolve. Its settings can only come from
+-- toml files, not from this config. markdown-oxide recognizes `.obsidian`,
+-- completes file names, headings and block references (`[[note#^id]]`), and
+-- covers marksman's navigation, rename and hover. Lost: marksman's "Table of
+-- Contents" code action (the extra's markdown-toc formatter remains).
+--
+-- markdown-oxide starts in any `.git`, `.obsidian` or `.moxide.toml` root,
+-- so it also runs in ordinary repositories. Its unresolved-link diagnostics
+-- are kept on for now (on trial); set `unresolved_diagnostics = false` in
+-- ~/.config/moxide/settings.toml or a vault's `.moxide.toml` to drop them.
 return {
-  -- Keep marksman running but drop its diagnostics.
   {
     "neovim/nvim-lspconfig",
     opts = {
       servers = {
-        marksman = {
-          -- Push diagnostics: discard them on arrival.
-          handlers = {
-            ["textDocument/publishDiagnostics"] = function() end,
+        -- `enabled = false` also keeps LazyVim from installing it via Mason.
+        marksman = { enabled = false },
+        markdown_oxide = {
+          -- Required by markdown-oxide for file-watch based features such as
+          -- the "create unresolved file" code action. Already the Neovim
+          -- default on macOS; set explicitly as its setup docs ask.
+          capabilities = {
+            workspace = {
+              didChangeWatchedFiles = { dynamicRegistration = true },
+            },
           },
-          -- Pull diagnostics (nvim 0.11+): hide the capability so the
-          -- client never requests them.
-          on_init = function(client)
-            client.server_capabilities.diagnosticProvider = nil
-          end,
         },
       },
     },
