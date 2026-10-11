@@ -4,8 +4,9 @@
 
 vim.g.autoformat = false
 
--- Keep the light palette instead of following the terminal's background.
-vim.opt.background = "light"
+-- 'background' is left unset so Nvim follows the terminal: it queries OSC 11
+-- at startup and re-queries on DEC 2031 theme notifications (foot sends them
+-- when darkman switches it). See docs/system-theme.md.
 
 -- Render spaces as faint middle dots, matching ~/.config/vim/conf.d/custom.vim
 -- (listchars=tab:\ \ ,space:·,eol:\ ). LazyVim already sets `list = true`;
